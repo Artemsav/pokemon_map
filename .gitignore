@@ -88,7 +88,8 @@ local_settings.py
 .env
 db.sqlite3
 media/
-migrations/
 bulbazavr.png
 002Ivysaur.png
 003Venusaur.png
+
+.vscode/settings.json
