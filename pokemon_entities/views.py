@@ -32,7 +32,7 @@ def show_all_pokemons(request):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon in pokemons:
         pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon)
-        img_url = request.build_absolute_uri(pokemon.photo)
+        img_url = request.build_absolute_uri(pokemon.photo.url)
         for pokemon_entity in pokemon_entities:
             characteristic = {'level': pokemon_entity.level,
                               'health': pokemon_entity.health,
@@ -49,7 +49,7 @@ def show_all_pokemons(request):
 
     pokemons_on_page = []
     for pokemon in pokemons:
-        img_url = request.build_absolute_uri(pokemon.photo)
+        img_url = request.build_absolute_uri(pokemon.photo.url)
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': img_url,
@@ -73,7 +73,7 @@ def show_pokemon(request, pokemon_id):
                           'defence': pokemon_entity.defence,
                           'stamina': pokemon_entity.stamina,
                           }
-        img_url = request.build_absolute_uri(pokemon.photo)
+        img_url = request.build_absolute_uri(pokemon.photo.url)
         add_pokemon(folium_map, pokemon_entity.lat,
                     pokemon_entity.lon,
                     characteristic.items(),
@@ -82,14 +82,14 @@ def show_pokemon(request, pokemon_id):
     if pokemon.next_evolution.all():
         next_evolution = pokemon.next_evolution.all().first()
         next_evolution = {'pokemon_id': next_evolution.id,
-                          'img_url': request.build_absolute_uri(next_evolution.photo),
+                          'img_url': request.build_absolute_uri(next_evolution.photo.url),
                           'title_ru': next_evolution.title,
                           }
     else:
         next_evolution = None
     if pokemon.previous_evolution:
         previous_evolution = {'pokemon_id': pokemon.previous_evolution.id,
-                              'img_url': request.build_absolute_uri(pokemon.previous_evolution.photo),
+                              'img_url': request.build_absolute_uri(pokemon.previous_evolution.photo.url),
                               'title_ru': pokemon.previous_evolution.title,
                               }
     else:
